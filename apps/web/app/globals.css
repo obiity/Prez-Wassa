@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  :root {
+    /* Light Mode */
+    --background: #F2F2F6;
+    --secondary: #FFFFFF;
+    --card: #FFFFFF;
+    --border: #E5E5EA;
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --accent: #F5730E;
+    --accent-hover: #E5650C;
+    --brand-brown: #6D3B00;
+  }
+
+  .dark {
+    /* Dark Mode */
+    --background: #000000;
+    --secondary: #0F0F0F;
+    --card: #141414;
+    --border: rgba(255, 255, 255, 0.08);
+    --text-primary: #FFFFFF;
+    --text-secondary: #A0A0A0;
+    --accent: #F5730E;
+    --accent-hover: #E5650C;
+    --brand-brown: #6D3B00;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar for horizontal scrolling sections */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Base styles for Senegalese pattern overlay */
+.senegal-pattern {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.4;
+}

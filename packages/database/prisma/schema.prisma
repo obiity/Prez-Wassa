@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  avatarUrl String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  favorites Movie[]  @relation("UserFavorites")
+}
+
+model Movie {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  videoUrl    String
+  posterUrl   String
+  bannerUrl   String?
+  duration    Int      // Duration in minutes
+  releaseYear Int
+  isExclusive Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  favoritedBy User[]   @relation("UserFavorites")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  movies      Movie[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
