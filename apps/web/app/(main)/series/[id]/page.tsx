@@ -3,14 +3,16 @@
 import { useState, use } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Play, Plus, ThumbsUp, Share2 } from "lucide-react";
+import { Play, Film, Plus, ThumbsUp, Share2 } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
+import { TrailerModal } from "@/components/TrailerModal";
 import { WASSA_SERIES } from "@/lib/data";
 
 export default function SeriesDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const serie = WASSA_SERIES.find((s) => s.id === resolvedParams.id);
   const [activeTab, setActiveTab] = useState<"episodes" | "details">("episodes");
+  const [showTrailer, setShowTrailer] = useState(false);
 
   if (!serie) {
     notFound();
@@ -62,6 +64,14 @@ export default function SeriesDetailPage({ params }: { params: Promise<{ id: str
                 <Play fill="currentColor" size={24} />
                 Regarder la Saison 1
               </Link>
+
+              <button 
+                onClick={() => setShowTrailer(true)}
+                className="flex items-center justify-center gap-2.5 bg-black/40 hover:bg-black/60 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-xl border border-white/20 text-white px-7 py-4 rounded-full font-sans font-semibold text-base md:text-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <Film size={22} className="text-brand-primary" />
+                Bande-annonce
+              </button>
               
               <button 
                 className="w-14 h-14 rounded-full border border-border bg-black/10 dark:bg-white/10 backdrop-blur-xl flex items-center justify-center hover:bg-black/20 dark:hover:bg-white/20 transition-all hover:scale-105 text-foreground"
@@ -87,6 +97,13 @@ export default function SeriesDetailPage({ params }: { params: Promise<{ id: str
           </div>
         </div>
       </div>
+
+      <TrailerModal 
+        isOpen={showTrailer} 
+        onClose={() => setShowTrailer(false)} 
+        title={serie.title} 
+        posterUrl={serie.imageUrl} 
+      />
 
       {/* Details & Episodes Section */}
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-12">

@@ -42,12 +42,18 @@ export function MovieCard({ movie, aspectRatio = "poster", showRemoveIcon = fals
 
   const isSubRequired = movie.requiresSubscription || movie.isExclusive || movie.isPremium;
 
-  const baseClasses = `group relative flex-none cursor-pointer rounded-2xl overflow-hidden bg-card shadow-md h-[240px] md:h-[330px] w-[160px] md:w-[220px] ${
+  const widthHeightClasses = aspectRatio === "video"
+    ? "h-[160px] md:h-[210px] w-[260px] md:w-[340px]"
+    : "h-[240px] md:h-[330px] w-[160px] md:w-[220px]";
+
+  const baseClasses = `group relative flex-none cursor-pointer rounded-2xl overflow-hidden bg-card shadow-md ${widthHeightClasses} ${
     isSubRequired 
       ? "border border-brand-primary/80 dark:border-brand-primary shadow-[0_0_10px_rgba(255,106,0,0.25)]" 
       : "border border-border"
   }`;
-  const expandClasses = "transition-[width] duration-500 ease-out hover:shadow-2xl hover:w-[320px] md:hover:w-[450px]";
+  const expandClasses = aspectRatio === "video"
+    ? "transition-[width] duration-500 ease-out hover:shadow-2xl hover:w-[340px] md:hover:w-[460px]"
+    : "transition-[width] duration-500 ease-out hover:shadow-2xl hover:w-[320px] md:hover:w-[450px]";
   const liftClasses = "transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_20px_40px_rgba(255,106,0,0.2),0_10px_20px_rgba(0,0,0,0.5)] hover:border-brand-primary/60 hover:z-30";
 
   return (
@@ -67,7 +73,9 @@ export function MovieCard({ movie, aspectRatio = "poster", showRemoveIcon = fals
 
       {/* Persistent subtle gradient for readability of permanent badges */}
       <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
-      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none opacity-100 group-hover:opacity-0 transition-opacity duration-300"></div>
+      
+      {/* Dark gradient for bottom title readability */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-10 pointer-events-none opacity-100 group-hover:opacity-0 transition-opacity duration-300"></div>
 
       {/* Permanent SÉRIE Badge (Top Left) */}
       {isSerie && (
@@ -76,9 +84,17 @@ export function MovieCard({ movie, aspectRatio = "poster", showRemoveIcon = fals
         </div>
       )}
 
-      {/* Permanent Season Count / Duration Indicator (Bottom Right before hover) */}
-      <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3 z-10 px-2 py-1 bg-black/60 backdrop-blur-md rounded border border-white/20 group-hover:opacity-0 transition-opacity duration-300">
-        <span className="text-[10px] md:text-xs font-sans font-medium text-white">{badgeText}</span>
+      {/* Permanent Title & Metadata Block (Visible on mobile & before hover on desktop) */}
+      <div className="absolute bottom-0 inset-x-0 p-2.5 md:p-3.5 z-10 flex flex-col justify-end pointer-events-none group-hover:opacity-0 transition-opacity duration-300">
+        <h3 className="font-display font-bold text-white text-xs md:text-sm line-clamp-1 leading-tight drop-shadow-md mb-1">
+          {movie.title}
+        </h3>
+        <div className="flex items-center justify-between text-[9px] md:text-[10px] font-sans font-medium text-gray-300">
+          <span>{movie.year}</span>
+          <span className="px-1.5 py-0.5 bg-black/60 backdrop-blur-md rounded border border-white/20 text-white font-sans">
+            {badgeText}
+          </span>
+        </div>
       </div>
 
       {/* Hover Overlay with Metadata */}

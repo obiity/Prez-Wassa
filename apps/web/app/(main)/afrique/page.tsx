@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { BackButton } from "@/components/BackButton";
 import { CategoryRow } from "@/components/CategoryRow";
+import { CategorySlider } from "@/components/CategorySlider";
 import { 
   NOLLYWOOD_MOVIES, 
   IVOIRIAN_MOVIES, 
@@ -88,24 +89,14 @@ export default function AfriquePage() {
           </div>
         </section>
 
-        {/* Sticky Sub-Nav */}
-        <div className="sticky top-24 z-40 w-full bg-background/90 backdrop-blur-xl border-b border-white/10 shadow-sm">
+        {/* Sticky Sub-Nav Slider */}
+        <div className="sticky top-24 z-40 w-full bg-background/90 backdrop-blur-xl border-b border-white/10 shadow-sm py-1">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-            <div className="flex items-center gap-2 md:gap-4 overflow-x-auto py-4 scrollbar-hide">
-              {REGIONS.map(region => (
-                <button
-                  key={region.id}
-                  onClick={() => scrollToSection(region.id)}
-                  className={`whitespace-nowrap px-4 py-2 rounded-full font-sans text-sm font-medium transition-all ${
-                    activeSection === region.id
-                      ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20"
-                      : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/5"
-                  }`}
-                >
-                  {region.label}
-                </button>
-              ))}
-            </div>
+            <CategorySlider 
+              items={REGIONS.map(r => ({ id: r.id, label: r.label }))}
+              activeId={activeSection}
+              onSelect={(id) => scrollToSection(id)}
+            />
           </div>
         </div>
 

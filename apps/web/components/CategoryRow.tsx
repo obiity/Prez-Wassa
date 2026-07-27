@@ -85,7 +85,7 @@ export function CategoryRow({ title, tagline, movies, aspectRatio = "poster" }: 
       <div className="group relative max-w-[1600px] mx-auto">
         <button 
           onClick={() => scroll("left")}
-          className="absolute left-0 top-0 z-40 h-[240px] md:h-[330px] w-16 bg-gradient-to-r from-background via-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-start pl-4 text-foreground cursor-pointer disabled:opacity-0"
+          className={`absolute left-0 top-0 z-40 ${aspectRatio === "video" ? "h-[160px] md:h-[210px]" : "h-[240px] md:h-[330px]"} w-16 bg-gradient-to-r from-background via-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-start pl-4 text-foreground cursor-pointer disabled:opacity-0`}
         >
           <div className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary transition-colors text-black">
             <ChevronLeft size={24} className="dark:text-white" />
@@ -120,7 +120,7 @@ export function CategoryRow({ title, tagline, movies, aspectRatio = "poster" }: 
 
         <button 
           onClick={() => scroll("right")}
-          className="absolute right-0 top-0 z-40 h-[240px] md:h-[330px] w-16 bg-gradient-to-l from-background via-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-end pr-4 text-foreground cursor-pointer"
+          className={`absolute right-0 top-0 z-40 ${aspectRatio === "video" ? "h-[160px] md:h-[210px]" : "h-[240px] md:h-[330px]"} w-16 bg-gradient-to-l from-background via-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-end pr-4 text-foreground cursor-pointer`}
         >
           <div className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-brand-primary hover:border-brand-primary transition-colors text-black">
             <ChevronRight size={24} className="dark:text-white" />

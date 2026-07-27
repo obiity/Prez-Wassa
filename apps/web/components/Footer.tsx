@@ -30,8 +30,8 @@ export function Footer() {
               className="h-10 w-auto object-contain mb-6 transition-all duration-300 opacity-80" 
             />
             <p className="font-sans text-sm max-w-sm mb-8 leading-relaxed">
-              WASSA est la première plateforme premium dédiée au rayonnement du cinéma sénégalais. 
-              Le Sénégal vous suit partout.
+              WASSA est la première plateforme premium dédiée au rayonnement du cinéma Africain. 
+              L'Afrique vous suit partout.
             </p>
             <div className="flex gap-5 text-muted">
               <Link href="#" className="hover:text-brand-text hover:-translate-y-1 transition-all duration-300"><FaFacebook size={22} /></Link>

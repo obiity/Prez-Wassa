@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Info } from "lucide-react";
+import { Play, Info, Film } from "lucide-react";
 import { useState, useEffect } from "react";
+import { TrailerModal } from "./TrailerModal";
 
 export interface HeroMovie {
   id: string;
@@ -20,6 +21,7 @@ interface HeroBannerProps {
 export function HeroBanner({ movies }: HeroBannerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [showTrailer, setShowTrailer] = useState(false);
 
   const slideNext = () => {
     setDirection(1);
@@ -130,18 +132,34 @@ export function HeroBanner({ movies }: HeroBannerProps) {
                   <Play fill="currentColor" size={24} />
                   Regarder
                 </Link>
-                
+
                 <button 
-                  className="flex items-center justify-center gap-3 bg-black/40 hover:bg-black/60 backdrop-blur-xl border border-white/20 text-white px-10 py-5 rounded-full font-sans font-semibold text-lg transition-all hover:scale-105 active:scale-95"
+                  onClick={() => setShowTrailer(true)}
+                  className="flex items-center justify-center gap-3 bg-black/40 hover:bg-black/60 backdrop-blur-xl border border-white/20 text-white px-8 py-5 rounded-full font-sans font-semibold text-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                >
+                  <Film size={22} className="text-brand-primary" />
+                  Bande-annonce
+                </button>
+                
+                <Link 
+                  href={`/movie/${currentMovie.id}`}
+                  className="flex items-center justify-center gap-3 bg-black/40 hover:bg-black/60 backdrop-blur-xl border border-white/20 text-white px-8 py-5 rounded-full font-sans font-semibold text-lg transition-all hover:scale-105 active:scale-95"
                 >
                   <Info size={24} />
                   Plus d'informations
-                </button>
+                </Link>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
+
+      <TrailerModal 
+        isOpen={showTrailer} 
+        onClose={() => setShowTrailer(false)} 
+        title={currentMovie?.title || ""} 
+        posterUrl={currentMovie?.imageUrl} 
+      />
 
       {/* Pagination indicators */}
       <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 flex gap-2">

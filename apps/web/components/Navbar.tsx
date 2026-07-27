@@ -96,6 +96,13 @@ export function Navbar() {
     };
   }, []);
 
+  const handleLogoOrHomeClick = (e: React.MouseEvent) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const logoSrc = mounted && resolvedTheme === "light" 
     ? "/logo-color.png" 
     : "/logo-white.png";
@@ -126,7 +133,7 @@ export function Navbar() {
             )}
           </button>
 
-          <Link href="/">
+          <Link href="/" onClick={handleLogoOrHomeClick}>
             <img 
               src={logoSrc} 
               alt="WASSA Logo" 
@@ -135,7 +142,7 @@ export function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-[15px] font-sans font-medium text-muted">
-            <Link href="/" className="hover:text-foreground hover:scale-105 transition-all">Accueil</Link>
+            <Link href="/" onClick={handleLogoOrHomeClick} className="hover:text-foreground hover:scale-105 transition-all">Accueil</Link>
             <Link href="/tv" className="hover:text-foreground hover:scale-105 transition-all flex items-center gap-1.5 font-semibold text-foreground">
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
               TV Direct
@@ -384,7 +391,7 @@ export function Navbar() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col gap-6 text-xl font-medium text-foreground">
-                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Accueil</Link>
+                <Link href="/" onClick={(e) => { handleLogoOrHomeClick(e); setIsMobileMenuOpen(false); }} className="hover:text-brand-primary transition-colors">Accueil</Link>
                 <Link href="/tv" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors flex items-center gap-2 font-semibold">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse"></span>
                   TV en Direct

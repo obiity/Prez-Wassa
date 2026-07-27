@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { ContentItem } from "@/types/content";
 import { MovieCard } from "./MovieCard";
 import { BackButton } from "./BackButton";
+import { CategorySlider } from "./CategorySlider";
 import { motion } from "framer-motion";
 
 interface CatalogGridProps {
@@ -78,19 +79,14 @@ export function CatalogGrid({ initialItems, title, type }: CatalogGridProps) {
         {/* Minimal Filters */}
         <div className="sticky top-24 z-40 bg-background/90 backdrop-blur-md py-4 border-b border-border flex flex-wrap gap-6 items-center text-sm font-sans">
           
-          <div className="flex gap-2 items-center">
-            <span className="text-muted font-medium uppercase tracking-wider text-xs">Genre</span>
-            <div className="flex gap-3 overflow-x-auto scrollbar-hide">
-              {genres.map(g => (
-                <button 
-                  key={g} 
-                  onClick={() => setGenreFilter(g)}
-                  className={`whitespace-nowrap transition-colors ${genreFilter === g ? "text-brand-primary font-bold" : "text-foreground hover:text-gray-400"}`}
-                >
-                  {g}
-                </button>
-              ))}
-            </div>
+          <div className="flex-1 min-w-0 flex items-center gap-3">
+            <span className="text-muted font-medium uppercase tracking-wider text-xs hidden sm:inline">Genre</span>
+            <CategorySlider 
+              items={genres.map(g => ({ id: g, label: g }))}
+              activeId={genreFilter}
+              onSelect={(id) => setGenreFilter(id)}
+              className="flex-1"
+            />
           </div>
 
           <div className="flex gap-2 items-center ml-auto">
