@@ -132,12 +132,80 @@ export const DOCUMENTARIES: ContentItem[] = [
   { id: "makala", title: "Makala", imageUrl: "/Makala.jpg", type: "film", classification: "Tous publics", year: 2017, genres: ["Documentaire"], duration: "1h 36m", synopsis: "L'épuisant périple d'un jeune Congolais qui fabrique et vend du charbon de bois pour offrir un avenir meilleur à sa famille.", poster_status: "official" }
 ];
 
+export const WASSA_PODCASTS: ContentItem[] = [
+  { 
+    id: "keur-yoon", 
+    title: "Keur Yoon - Récits du Sénégal", 
+    imageUrl: "/podcast-keur-yoon.png", 
+    type: "podcast", 
+    classification: "Tous publics", 
+    year: 2024, 
+    genres: ["Culture", "Histoire"], 
+    host: "Awa Seck",
+    audioDuration: "42 min",
+    episodesCount: 18,
+    synopsis: "Plongez au cœur des contes, traditions et légendes vivantes du Sénégal avec des invités captivants." 
+  },
+  { 
+    id: "teranga-talk", 
+    title: "Teranga Talk", 
+    imageUrl: "/podcast-teranga-talk.png", 
+    type: "podcast", 
+    classification: "Tous publics", 
+    year: 2024, 
+    genres: ["Société", "Débat"], 
+    host: "Cheikh Ndiaye",
+    audioDuration: "55 min",
+    episodesCount: 24,
+    synopsis: "La voix de la jeunesse sénégalaise sur les défis contemporains, la culture et l'entrepreneuriat à Dakar." 
+  },
+  { 
+    id: "paroles-dartistes", 
+    title: "Paroles d'Artistes", 
+    imageUrl: "/podcast-paroles-dartistes.png", 
+    type: "podcast", 
+    classification: "Tous publics", 
+    year: 2023, 
+    genres: ["Cinéma", "Musique"], 
+    host: "Fatou Sow",
+    audioDuration: "38 min",
+    episodesCount: 12,
+    synopsis: "Entretiens exclusifs avec les réalisateurs, musiciens et comédiens qui font vibrer le cinéma sénégalais." 
+  },
+  { 
+    id: "sunu-tech", 
+    title: "Sunu Tech & Innovation", 
+    imageUrl: "/podcast-sunu-tech.png", 
+    type: "podcast", 
+    classification: "Tous publics", 
+    year: 2024, 
+    genres: ["Technologie", "Business"], 
+    host: "Mamadou Fall",
+    audioDuration: "48 min",
+    episodesCount: 15,
+    synopsis: "Le panorama des startups, créateurs et innovations technologiques nées au Sénégal et en Afrique de l'Ouest." 
+  },
+  { 
+    id: "griot-modern", 
+    title: "Le Griot Moderne", 
+    imageUrl: "/podcast-griot-modern.png", 
+    type: "podcast", 
+    classification: "Tous publics", 
+    year: 2023, 
+    genres: ["Histoire", "Musique"], 
+    host: "Babacar Diop",
+    audioDuration: "35 min",
+    episodesCount: 20,
+    synopsis: "L'histoire racontée de la musique sénégalaise, du Mbalax traditionnel aux sonorités urbaines d'aujourd'hui." 
+  }
+];
+
 export function getRelatedMovies(movieId: string, limit: number = 10): ContentItem[] {
   const allCategories = [
     EXCLUSIVES_MOVIES, TRENDING_MOVIES, CLASSIC_MOVIES, 
     WASSA_SERIES, NOLLYWOOD_MOVIES, IVOIRIAN_MOVIES, 
     MALIAN_MOVIES, NORTH_AFRICAN_MOVIES, PANAFRICAN_MOVIES, 
-    DOCUMENTARIES
+    DOCUMENTARIES, WASSA_PODCASTS
   ];
 
   // 1. Find the specific category array that contains this movie

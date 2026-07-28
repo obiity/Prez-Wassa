@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-import { EXCLUSIVES_MOVIES, TRENDING_MOVIES, CLASSIC_MOVIES, WASSA_SERIES, NOLLYWOOD_MOVIES, IVOIRIAN_MOVIES, MALIAN_MOVIES, NORTH_AFRICAN_MOVIES, PANAFRICAN_MOVIES, DOCUMENTARIES } from "@/lib/data";
+import { EXCLUSIVES_MOVIES, TRENDING_MOVIES, CLASSIC_MOVIES, WASSA_SERIES, NOLLYWOOD_MOVIES, IVOIRIAN_MOVIES, MALIAN_MOVIES, NORTH_AFRICAN_MOVIES, PANAFRICAN_MOVIES, DOCUMENTARIES, WASSA_PODCASTS } from "@/lib/data";
 
 const ALL_CONTENT = [
   ...EXCLUSIVES_MOVIES,
@@ -19,7 +19,8 @@ const ALL_CONTENT = [
   ...MALIAN_MOVIES,
   ...NORTH_AFRICAN_MOVIES,
   ...PANAFRICAN_MOVIES,
-  ...DOCUMENTARIES
+  ...DOCUMENTARIES,
+  ...WASSA_PODCASTS
 ];
 
 const iconButtonClass = "relative w-9 h-9 md:w-11 md:h-11 flex items-center justify-center rounded-full text-black dark:text-white hover:bg-brand-primary/10 hover:text-brand-primary dark:hover:bg-brand-primary/20 dark:hover:text-brand-primary transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brand-primary";
@@ -143,12 +144,13 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center gap-8 text-[15px] font-sans font-medium text-muted">
             <Link href="/" onClick={handleLogoOrHomeClick} className="hover:text-foreground hover:scale-105 transition-all">Accueil</Link>
-            <Link href="/tv" className="hover:text-foreground hover:scale-105 transition-all flex items-center gap-1.5 font-semibold text-foreground">
+            <Link href="/tv" className="hover:text-foreground hover:scale-105 transition-all flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
               TV Direct
             </Link>
             <Link href="/series" className="hover:text-foreground hover:scale-105 transition-all">Séries</Link>
             <Link href="/movies" className="hover:text-foreground hover:scale-105 transition-all">Films</Link>
+            <Link href="/podcasts" className="hover:text-foreground hover:scale-105 transition-all">Podcasts</Link>
             <Link href="/documentaires" className="hover:text-foreground hover:scale-105 transition-all">Documentaires</Link>
             <Link href="/afrique" className="hover:text-foreground hover:scale-105 transition-all">Afrique</Link>
             <Link href="/ma-liste" className="hover:text-foreground hover:scale-105 transition-all">Ma Liste</Link>
@@ -392,12 +394,13 @@ export function Navbar() {
             >
               <div className="flex flex-col gap-6 text-xl font-medium text-foreground">
                 <Link href="/" onClick={(e) => { handleLogoOrHomeClick(e); setIsMobileMenuOpen(false); }} className="hover:text-brand-primary transition-colors">Accueil</Link>
-                <Link href="/tv" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors flex items-center gap-2 font-semibold">
+                <Link href="/tv" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse"></span>
                   TV en Direct
                 </Link>
                 <Link href="/series" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Séries</Link>
                 <Link href="/movies" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Films</Link>
+                <Link href="/podcasts" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Podcasts</Link>
                 <Link href="/documentaires" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Documentaires</Link>
                 <Link href="/afrique" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Afrique</Link>
                 <Link href="/categories" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Catégories</Link>

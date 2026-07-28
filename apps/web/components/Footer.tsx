@@ -47,6 +47,7 @@ export function Footer() {
               <li><Link href="/" className="hover:text-brand-text transition-colors">Accueil</Link></li>
               <li><Link href="/series" className="hover:text-brand-text transition-colors">Séries WASSA</Link></li>
               <li><Link href="/movies" className="hover:text-brand-text transition-colors">Films à l'affiche</Link></li>
+              <li><Link href="/podcasts" className="hover:text-brand-text transition-colors">Podcasts</Link></li>
               <li><Link href="/documentaires" className="hover:text-brand-text transition-colors">Documentaires</Link></li>
             </ul>
           </div>

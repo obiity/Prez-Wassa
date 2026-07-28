@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { EXCLUSIVES_MOVIES, TRENDING_MOVIES, CLASSIC_MOVIES, WASSA_SERIES, NOLLYWOOD_MOVIES, IVOIRIAN_MOVIES, MALIAN_MOVIES, NORTH_AFRICAN_MOVIES, PANAFRICAN_MOVIES } from "@/lib/data";
+import { EXCLUSIVES_MOVIES, TRENDING_MOVIES, CLASSIC_MOVIES, WASSA_SERIES, NOLLYWOOD_MOVIES, IVOIRIAN_MOVIES, MALIAN_MOVIES, NORTH_AFRICAN_MOVIES, PANAFRICAN_MOVIES, WASSA_PODCASTS } from "@/lib/data";
 import { BackButton } from "@/components/BackButton";
 
 const CATEGORIES = [
@@ -14,6 +14,12 @@ const CATEGORIES = [
     subtitle: "Des histoires captivantes, épisode après épisode.",
     image: WASSA_SERIES[0]?.imageUrl || "/placeholder.jpg",
     link: "/series"
+  },
+  {
+    title: "Podcasts",
+    subtitle: "Émissions audio, débats et récits passionnants du Sénégal.",
+    image: WASSA_PODCASTS[0]?.imageUrl || "/placeholder.jpg",
+    link: "/podcasts"
   },
   {
     title: "Classiques Sénégalais",
@@ -43,7 +49,7 @@ const CATEGORIES = [
     title: "Afrique du Nord",
     subtitle: "Le cinéma maghrébin et égyptien.",
     image: NORTH_AFRICAN_MOVIES[0]?.imageUrl || "/placeholder.jpg",
-    link: "/movies?region=Maroc" // Just an example, ideally we'd filter multiple regions
+    link: "/movies?region=Maroc"
   },
   {
     title: "Drame",

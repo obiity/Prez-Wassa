@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, RefreshCw, CheckCircle2 } from "lucide-react";
 
 const pricingPlans = [
   {
@@ -15,6 +15,7 @@ const pricingPlans = [
       "Qualité vidéo Bonne (720p)",
       "1 écran en simultané",
       "Téléchargements hors ligne",
+      "Renouvellement automatique flexible",
       "Avec publicités",
       "Catalogue standard"
     ],
@@ -31,6 +32,7 @@ const pricingPlans = [
       "Qualité vidéo Excellente (1080p)",
       "2 écrans en simultané",
       "Téléchargements hors ligne",
+      "Renouvellement automatique flexible",
       "Sans publicités",
       "Accès aux WASSA Originals"
     ],
@@ -47,6 +49,7 @@ const pricingPlans = [
       "Qualité vidéo Exceptionnelle (4K+HDR)",
       "4 écrans en simultané",
       "Téléchargements hors ligne",
+      "Renouvellement automatique flexible",
       "Sans publicités",
       "Accès aux WASSA Originals en avant-première"
     ],
@@ -57,22 +60,41 @@ const pricingPlans = [
 
 export function PricingSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [autoRenew, setAutoRenew] = useState<boolean>(true);
 
   return (
     <section id="tarifs" className="relative w-full pt-0 pb-24 md:pb-32 bg-secondary/30 -mt-12 md:-mt-24 z-10 scroll-mt-28">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
           <h2 className="text-brand-primary font-sans font-bold tracking-widest text-xs md:text-sm uppercase mb-4 drop-shadow-sm">
             Tarifs
           </h2>
           <h3 className="text-3xl md:text-5xl font-display font-bold text-foreground leading-[1.2] tracking-tight">
             Choisissez votre abonnement
           </h3>
-          <p className="mt-6 text-lg text-muted font-light">
+          <p className="mt-4 text-lg text-muted font-light mb-8">
             Découvrez nos offres adaptées à tous les budgets. Sans engagement, annulez à tout moment.
           </p>
+
+          {/* Bouton Renouvellement automatique */}
+          <div className="inline-flex items-center gap-3 bg-black/40 border border-white/10 p-2 rounded-full shadow-lg">
+            <button
+              onClick={() => setAutoRenew(!autoRenew)}
+              className={`flex items-center gap-2.5 px-6 py-2.5 rounded-full text-xs md:text-sm font-extrabold uppercase tracking-wider transition-all duration-300 ${
+                autoRenew 
+                  ? "bg-brand-primary text-black shadow-glow-primary" 
+                  : "bg-white/10 text-white hover:bg-white/20"
+              }`}
+            >
+              <RefreshCw className={`w-4 h-4 ${autoRenew ? "animate-spin-slow" : ""}`} />
+              Renouvellement automatique : {autoRenew ? "Activé" : "Désactivé"}
+            </button>
+            <span className="text-xs text-muted pr-4 hidden sm:inline-block">
+              {autoRenew ? "Paiement mensuel sans interruption" : "Paiement unique sans reconduction"}
+            </span>
+          </div>
         </div>
 
         {/* Pricing Tiers - Boxed Style with Spotlight Animation */}

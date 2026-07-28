@@ -162,8 +162,120 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {activeTab === "categories" && (
+            <div className="bg-white dark:bg-[#121212] rounded-xl border border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
+              <div className="p-4 border-b border-gray-200 dark:border-white/10 flex justify-between items-center">
+                <h2 className="font-bold text-lg">Gestion des Catégories</h2>
+                <button className="bg-brand-primary hover:bg-brand-hover text-black px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2">
+                  <Plus size={16} /> Nouvelle catégorie
+                </button>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-white/10">
+                    <tr>
+                      <th className="px-6 py-4 font-medium">Nom de la Catégorie</th>
+                      <th className="px-6 py-4 font-medium">Description</th>
+                      <th className="px-6 py-4 font-medium">Nombre de contenus</th>
+                      <th className="px-6 py-4 font-medium">Statut</th>
+                      <th className="px-6 py-4 font-medium text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { name: "Podcasts", desc: "Émissions audio, débats et récits sénégalais", count: "5 émission(s)", status: "Actif (Nouveau)" },
+                      { name: "Films", desc: "Longs métrages et courts métrages sénégalais", count: "142 film(s)", status: "Actif" },
+                      { name: "Séries", desc: "Télénovelas et séries dramatiques", count: "28 série(s)", status: "Actif" },
+                      { name: "Documentaires", desc: "Récits historiques et société", count: "18 documentaire(s)", status: "Actif" },
+                      { name: "Classiques Sénégalais", desc: "Patrimoine cinématographique national", count: "24 œuvre(s)", status: "Actif" },
+                      { name: "Nollywood & Afrique", desc: "Cinéma africain partenaire", count: "35 film(s)", status: "Actif" },
+                    ].map((cat, idx) => (
+                      <tr key={idx} className="border-b border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5">
+                        <td className="px-6 py-4 font-bold text-brand-primary">{cat.name}</td>
+                        <td className="px-6 py-4 text-gray-600 dark:text-gray-300">{cat.desc}</td>
+                        <td className="px-6 py-4 font-mono text-xs">{cat.count}</td>
+                        <td className="px-6 py-4">
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                            cat.name === "Podcasts" 
+                              ? "bg-brand-primary/20 text-brand-primary border border-brand-primary/40" 
+                              : "bg-green-500/10 text-green-500 border border-green-500/20"
+                          }`}>
+                            {cat.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button className="text-gray-400 hover:text-brand-primary"><MoreVertical size={16} /></button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "subs" && (
+            <div className="bg-white dark:bg-[#121212] rounded-xl border border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
+              <div className="p-4 border-b border-gray-200 dark:border-white/10 flex justify-between items-center">
+                <div>
+                  <h2 className="font-bold text-lg">Gestion des Abonnements</h2>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Suivi des abonnés et renouvellements automatiques</p>
+                </div>
+                <button className="bg-brand-primary hover:bg-brand-hover text-black px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2">
+                  <Plus size={16} /> Ajouter un abonné
+                </button>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-white/10">
+                    <tr>
+                      <th className="px-6 py-4 font-medium">Utilisateur</th>
+                      <th className="px-6 py-4 font-medium">Formule</th>
+                      <th className="px-6 py-4 font-medium">Date d'échéance</th>
+                      <th className="px-6 py-4 font-medium">Renouvellement Auto</th>
+                      <th className="px-6 py-4 font-medium text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { user: "Mamadou Diop", email: "mamadou.diop@wassa.sn", plan: "Premium 4K", price: "6 500 FCFA/m", date: "12 Août 2026", autoRenew: true },
+                      { user: "Aïssatou Sow", email: "aissatou.sow@gmail.com", plan: "Standard HD", price: "4 000 FCFA/m", date: "05 Août 2026", autoRenew: true },
+                      { user: "Ousmane Ba", email: "ousmane.ba@yahoo.fr", plan: "Essentiel", price: "2 500 FCFA/m", date: "29 Juillet 2026", autoRenew: false },
+                      { user: "Fatou Kine", email: "fatou.kine@wassa.sn", plan: "Premium 4K", price: "6 500 FCFA/m", date: "18 Août 2026", autoRenew: true },
+                    ].map((sub, idx) => (
+                      <tr key={idx} className="border-b border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5">
+                        <td className="px-6 py-4">
+                          <div className="font-bold">{sub.user}</div>
+                          <div className="text-xs text-gray-400">{sub.email}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="font-medium">{sub.plan}</span>
+                          <div className="text-xs text-gray-400">{sub.price}</div>
+                        </td>
+                        <td className="px-6 py-4 font-mono text-xs">{sub.date}</td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
+                            sub.autoRenew 
+                              ? "bg-green-500/10 text-green-500 border border-green-500/20" 
+                              : "bg-yellow-500/10 text-yellow-500 border border-yellow-500/20"
+                          }`}>
+                            <span className={`w-2 h-2 rounded-full ${sub.autoRenew ? "bg-green-500" : "bg-yellow-500"}`}></span>
+                            {sub.autoRenew ? "Activé" : "Désactivé"}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button className="text-xs text-brand-primary font-bold hover:underline">Gérer</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
           {/* Placeholder for other tabs */}
-          {["series", "categories", "users", "subs", "analytics"].includes(activeTab) && (
+          {["series", "users", "analytics"].includes(activeTab) && (
             <div className="flex flex-col items-center justify-center h-full text-gray-400">
               <Settings size={48} className="mb-4 opacity-20" />
               <p>Module en cours de développement.</p>

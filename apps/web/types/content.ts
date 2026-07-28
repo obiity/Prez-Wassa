@@ -9,7 +9,7 @@ export type ContentItem = {
   id: string;
   title: string;
   imageUrl: string;
-  type: "film" | "serie" | "live";
+  type: "film" | "serie" | "live" | "podcast";
   classification: string;
   year: number;
   genres: string[];
@@ -17,11 +17,17 @@ export type ContentItem = {
   
   // Video / preview clip URL
   videoUrl?: string;
+  audioUrl?: string;
   
   // Live specific
   isLive?: boolean;
   viewerCount?: string | number;
   channelName?: string;
+
+  // Podcast specific
+  host?: string;
+  audioDuration?: string;
+  episodesCount?: number;
   
   // Additional metadata
   director?: string;
