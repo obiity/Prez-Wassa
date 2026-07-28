@@ -74,9 +74,6 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center text-sm font-sans gap-4">
           <p>&copy; {new Date().getFullYear()} WASSA. Tous droits réservés.</p>
-          <div className="flex gap-6 text-xs">
-            <span className="opacity-70">Fait avec ❤️ au Sénégal</span>
-          </div>
         </div>
 
       </div>
