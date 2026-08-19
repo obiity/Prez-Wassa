@@ -1,13 +1,15 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function Footer() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setMounted(true);
@@ -30,8 +32,7 @@ export function Footer() {
               className="h-10 w-auto object-contain mb-6 transition-all duration-300 opacity-80" 
             />
             <p className="font-sans text-sm max-w-sm mb-8 leading-relaxed">
-              WASSA est la première plateforme premium dédiée au rayonnement du cinéma Africain. 
-              L'Afrique vous suit partout.
+              {t.footer.slogan}
             </p>
             <div className="flex gap-5 text-muted">
               <Link href="#" className="hover:text-brand-text hover:-translate-y-1 transition-all duration-300"><FaFacebook size={22} /></Link>
@@ -42,38 +43,38 @@ export function Footer() {
           </div>
 
           <div className="col-span-1 md:col-span-2 md:col-start-7">
-            <h4 className="text-foreground font-display font-bold tracking-wider uppercase text-xs mb-6 opacity-80">Explorer</h4>
+            <h4 className="text-foreground font-display font-bold tracking-wider uppercase text-xs mb-6 opacity-80">{t.footer.explore}</h4>
             <ul className="space-y-4 font-sans text-sm">
-              <li><Link href="/" className="hover:text-brand-text transition-colors">Accueil</Link></li>
-              <li><Link href="/series" className="hover:text-brand-text transition-colors">Séries WASSA</Link></li>
-              <li><Link href="/movies" className="hover:text-brand-text transition-colors">Films à l'affiche</Link></li>
-              <li><Link href="/podcasts" className="hover:text-brand-text transition-colors">Podcasts</Link></li>
-              <li><Link href="/documentaires" className="hover:text-brand-text transition-colors">Documentaires</Link></li>
+              <li><Link href="/" className="hover:text-brand-text transition-colors">{t.footer.home}</Link></li>
+              <li><Link href="/series" className="hover:text-brand-text transition-colors">{t.footer.series}</Link></li>
+              <li><Link href="/movies" className="hover:text-brand-text transition-colors">{t.footer.movies}</Link></li>
+              <li><Link href="/podcasts" className="hover:text-brand-text transition-colors">{t.footer.podcasts}</Link></li>
+              <li><Link href="/documentaires" className="hover:text-brand-text transition-colors">{t.footer.documentaries}</Link></li>
             </ul>
           </div>
 
           <div className="col-span-1 md:col-span-2">
-            <h4 className="text-foreground font-display font-bold tracking-wider uppercase text-xs mb-6 opacity-80">Mentions Légales</h4>
+            <h4 className="text-foreground font-display font-bold tracking-wider uppercase text-xs mb-6 opacity-80">{t.footer.legal}</h4>
             <ul className="space-y-4 font-sans text-sm">
-              <li><Link href="/terms" className="hover:text-brand-text transition-colors">Conditions d'utilisation</Link></li>
-              <li><Link href="/privacy" className="hover:text-brand-text transition-colors">Confidentialité</Link></li>
-              <li><Link href="/cookies" className="hover:text-brand-text transition-colors">Cookies</Link></li>
+              <li><Link href="/terms" className="hover:text-brand-text transition-colors">{t.footer.terms}</Link></li>
+              <li><Link href="/privacy" className="hover:text-brand-text transition-colors">{t.footer.privacy}</Link></li>
+              <li><Link href="/cookies" className="hover:text-brand-text transition-colors">{t.footer.cookies}</Link></li>
             </ul>
           </div>
 
           <div className="col-span-1 md:col-span-2">
-            <h4 className="text-foreground font-display font-bold tracking-wider uppercase text-xs mb-6 opacity-80">Assistance</h4>
+            <h4 className="text-foreground font-display font-bold tracking-wider uppercase text-xs mb-6 opacity-80">{t.footer.support}</h4>
             <ul className="space-y-4 font-sans text-sm">
-              <li><Link href="/faq" className="hover:text-brand-text transition-colors">Centre d'aide</Link></li>
-              <li><Link href="/contact" className="hover:text-brand-text transition-colors">Nous contacter</Link></li>
-              <li><Link href="/devices" className="hover:text-brand-text transition-colors">Appareils supportés</Link></li>
+              <li><Link href="/faq" className="hover:text-brand-text transition-colors">{t.footer.faq}</Link></li>
+              <li><Link href="/contact" className="hover:text-brand-text transition-colors">{t.footer.contact}</Link></li>
+              <li><Link href="/devices" className="hover:text-brand-text transition-colors">{t.footer.devices}</Link></li>
             </ul>
           </div>
 
         </div>
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center text-sm font-sans gap-4">
-          <p>&copy; {new Date().getFullYear()} WASSA. Tous droits réservés.</p>
+          <p>&copy; {new Date().getFullYear()} WASSA. {t.footer.copyright}</p>
         </div>
 
       </div>

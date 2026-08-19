@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Play, Film, Plus, ThumbsUp, Share2 } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
 import { TrailerModal } from "@/components/TrailerModal";
+import { useLanguage } from "@/lib/LanguageContext";
 import { EXCLUSIVES_MOVIES, TRENDING_MOVIES, CLASSIC_MOVIES, NOLLYWOOD_MOVIES, IVOIRIAN_MOVIES, MALIAN_MOVIES, NORTH_AFRICAN_MOVIES, PANAFRICAN_MOVIES } from "@/lib/data";
 
 const ALL_MOVIES = [
@@ -23,14 +24,18 @@ export default function MovieDetailPage({ params }: { params: Promise<{ id: stri
   const resolvedParams = use(params);
   const movie = ALL_MOVIES.find((m) => m.id === resolvedParams.id);
   const [showTrailer, setShowTrailer] = useState(false);
+  const { t, language } = useLanguage();
 
   if (!movie) {
     notFound();
   }
 
+  const displayTitle = language === "en" && movie.title_en ? movie.title_en : movie.title;
+  const displaySynopsis = language === "en" && movie.synopsis_en ? movie.synopsis_en : movie.synopsis;
+  const displayGenres = language === "en" && movie.genres_en ? movie.genres_en : movie.genres;
+
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300 relative">
-
       {/* Cinematic Backdrop */}
       <div className="relative w-full h-[70vh] md:h-[85vh] overflow-hidden bg-background">
         <div className="absolute top-32 left-6 md:left-12 z-20">
@@ -39,7 +44,7 @@ export default function MovieDetailPage({ params }: { params: Promise<{ id: stri
         <div className="absolute inset-0 z-0">
           <img 
             src={movie.imageUrl} 
-            alt={movie.title} 
+            alt={displayTitle} 
             className="w-full h-full object-cover scale-[1.01]"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent w-full md:w-[75%] transition-colors duration-500"></div>
@@ -51,19 +56,19 @@ export default function MovieDetailPage({ params }: { params: Promise<{ id: stri
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full h-full flex flex-col justify-end pb-12 md:pb-24">
           <div className="max-w-3xl">
             <h1 className="text-5xl md:text-8xl font-display font-bold text-foreground mb-4 leading-tight drop-shadow-2xl uppercase">
-              {movie.title}
+              {displayTitle}
             </h1>
 
             <div className="flex flex-wrap items-center gap-3 text-sm md:text-base font-sans font-medium text-muted mb-6">
-              <span className="text-brand-text font-bold">98% Match</span>
+              <span className="text-brand-text font-bold">98% {t.detail.match}</span>
               <span>{movie.year || "2024"}</span>
               <span className="border border-border bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded text-foreground">{movie.duration}</span>
               <span className="border border-border bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded text-foreground">4K Ultra HD</span>
-              <span>{movie.genres.join(", ")}</span>
+              <span>{displayGenres.join(", ")}</span>
             </div>
 
             <p className="text-lg md:text-xl font-sans text-muted mb-8 line-clamp-3 md:line-clamp-4 font-light leading-relaxed max-w-2xl">
-              {movie.synopsis}
+              {displaySynopsis}
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
@@ -72,7 +77,7 @@ export default function MovieDetailPage({ params }: { params: Promise<{ id: stri
                 className="flex items-center justify-center gap-3 bg-brand-primary hover:bg-brand-hover text-black px-10 py-4 rounded-full font-sans font-semibold text-lg transition-all shadow-glow-primary hover:scale-105 active:scale-95"
               >
                 <Play fill="currentColor" size={24} />
-                Regarder
+                {t.detail.watch}
               </Link>
 
               <button 
@@ -80,26 +85,26 @@ export default function MovieDetailPage({ params }: { params: Promise<{ id: stri
                 className="flex items-center justify-center gap-2.5 bg-black/40 hover:bg-black/60 dark:bg-white/10 dark:hover:bg-white/20 backdrop-blur-xl border border-white/20 text-white px-7 py-4 rounded-full font-sans font-semibold text-base md:text-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <Film size={22} className="text-brand-primary" />
-                Bande-annonce
+                {t.detail.trailer}
               </button>
               
               <button 
                 className="w-14 h-14 rounded-full border border-border bg-black/10 dark:bg-white/10 backdrop-blur-xl flex items-center justify-center hover:bg-black/20 dark:hover:bg-white/20 transition-all hover:scale-105 text-foreground"
-                aria-label="Ajouter à ma liste"
+                aria-label={t.detail.addToList}
               >
                 <Plus size={28} />
               </button>
 
               <button 
                 className="w-14 h-14 rounded-full border border-border bg-black/10 dark:bg-white/10 backdrop-blur-xl flex items-center justify-center hover:bg-black/20 dark:hover:bg-white/20 transition-all hover:scale-105 text-foreground"
-                aria-label="Évaluer"
+                aria-label={t.detail.rate}
               >
                 <ThumbsUp size={24} />
               </button>
 
               <button 
                 className="w-14 h-14 rounded-full border border-border bg-black/10 dark:bg-white/10 backdrop-blur-xl flex items-center justify-center hover:bg-black/20 dark:hover:bg-white/20 transition-all hover:scale-105 text-foreground"
-                aria-label="Partager"
+                aria-label={t.detail.share}
               >
                 <Share2 size={24} />
               </button>
@@ -111,7 +116,7 @@ export default function MovieDetailPage({ params }: { params: Promise<{ id: stri
       <TrailerModal 
         isOpen={showTrailer} 
         onClose={() => setShowTrailer(false)} 
-        title={movie.title} 
+        title={displayTitle} 
         posterUrl={movie.imageUrl} 
       />
 
@@ -119,39 +124,39 @@ export default function MovieDetailPage({ params }: { params: Promise<{ id: stri
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-12">
         <div className="inline-flex items-center gap-2 p-1.5 rounded-full bg-secondary/80 border border-border/60 backdrop-blur-md mb-8 shadow-sm">
           <span className="px-6 py-2.5 rounded-full font-sans font-bold text-sm bg-brand-primary text-black shadow-glow-subtle">
-            Détails & Casting
+            {t.detail.detailsTab}
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 font-sans">
           <div className="col-span-2 space-y-8">
             <div>
-              <h4 className="text-muted text-sm uppercase tracking-wider mb-2">Synopsis Complet</h4>
+              <h4 className="text-muted text-sm uppercase tracking-wider mb-2">{t.detail.fullSynopsis}</h4>
               <p className="text-foreground leading-relaxed">
-                {movie.synopsis}
+                {displaySynopsis}
               </p>
             </div>
             
             <div>
-              <h4 className="text-muted text-sm uppercase tracking-wider mb-2">Langues & Sous-titres</h4>
+              <h4 className="text-muted text-sm uppercase tracking-wider mb-2">{t.detail.languagesSubtitles}</h4>
               <div className="flex items-center gap-6 text-foreground">
-                <span>Audio : Wolof, Français</span>
-                <span>Sous-titres : Français, Anglais</span>
+                <span>{t.detail.audioLang}</span>
+                <span>{t.detail.subLang}</span>
               </div>
             </div>
           </div>
           
           <div className="space-y-6">
             <div>
-              <h4 className="text-muted text-sm uppercase tracking-wider mb-1">Casting</h4>
-              <p className="text-foreground">{movie.actors ? movie.actors.join(", ") : "Non renseigné"}</p>
+              <h4 className="text-muted text-sm uppercase tracking-wider mb-1">{t.detail.cast}</h4>
+              <p className="text-foreground">{movie.actors ? movie.actors.join(", ") : t.detail.notSpecified}</p>
             </div>
             <div>
-              <h4 className="text-muted text-sm uppercase tracking-wider mb-1">Réalisation</h4>
-              <p className="text-foreground">{movie.director || "Non renseigné"}</p>
+              <h4 className="text-muted text-sm uppercase tracking-wider mb-1">{t.detail.director}</h4>
+              <p className="text-foreground">{movie.director || t.detail.notSpecified}</p>
             </div>
             <div>
-              <h4 className="text-muted text-sm uppercase tracking-wider mb-1">Classification</h4>
+              <h4 className="text-muted text-sm uppercase tracking-wider mb-1">{t.detail.classification}</h4>
               <span className="inline-block border border-border px-2 py-1 rounded text-sm text-foreground mt-1">
                 {movie.classification}
               </span>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useLanguage } from "@/lib/LanguageContext";
 import { EXCLUSIVES_MOVIES, TRENDING_MOVIES, CLASSIC_MOVIES, WASSA_SERIES, NOLLYWOOD_MOVIES, IVOIRIAN_MOVIES, MALIAN_MOVIES, NORTH_AFRICAN_MOVIES, PANAFRICAN_MOVIES, DOCUMENTARIES, WASSA_PODCASTS } from "@/lib/data";
 
 const ALL_CONTENT = [
@@ -30,6 +32,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
 
   // New state for dropdowns
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -95,7 +98,7 @@ export function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscKey);
     };
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const handleLogoOrHomeClick = (e: React.MouseEvent) => {
     if (window.location.pathname === "/") {
@@ -125,7 +128,7 @@ export function Navbar() {
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`md:hidden ${iconButtonClass}`}
-            aria-label="Menu"
+            aria-label={t.nav.menu}
           >
             {isMobileMenuOpen ? (
               <X className={iconSizeClass} strokeWidth={2} />
@@ -143,21 +146,21 @@ export function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-[15px] font-sans font-medium text-muted">
-            <Link href="/" onClick={handleLogoOrHomeClick} className="hover:text-foreground hover:scale-105 transition-all">Accueil</Link>
+            <Link href="/" onClick={handleLogoOrHomeClick} className="hover:text-foreground hover:scale-105 transition-all">{t.nav.home}</Link>
             <Link href="/tv" className="hover:text-foreground hover:scale-105 transition-all flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
-              TV Direct
+              {t.nav.liveTv}
             </Link>
-            <Link href="/series" className="hover:text-foreground hover:scale-105 transition-all">Séries</Link>
-            <Link href="/movies" className="hover:text-foreground hover:scale-105 transition-all">Films</Link>
-            <Link href="/podcasts" className="hover:text-foreground hover:scale-105 transition-all">Podcasts</Link>
-            <Link href="/documentaires" className="hover:text-foreground hover:scale-105 transition-all">Documentaires</Link>
-            <Link href="/afrique" className="hover:text-foreground hover:scale-105 transition-all">Afrique</Link>
-            <Link href="/ma-liste" className="hover:text-foreground hover:scale-105 transition-all">Ma Liste</Link>
+            <Link href="/series" className="hover:text-foreground hover:scale-105 transition-all">{t.nav.series}</Link>
+            <Link href="/movies" className="hover:text-foreground hover:scale-105 transition-all">{t.nav.movies}</Link>
+            <Link href="/podcasts" className="hover:text-foreground hover:scale-105 transition-all">{t.nav.podcasts}</Link>
+            <Link href="/documentaires" className="hover:text-foreground hover:scale-105 transition-all">{t.nav.documentaries}</Link>
+            <Link href="/afrique" className="hover:text-foreground hover:scale-105 transition-all">{t.nav.africa}</Link>
+            <Link href="/ma-liste" className="hover:text-foreground hover:scale-105 transition-all">{t.nav.myList}</Link>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 sm:gap-2 md:gap-4">
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-3">
           {/* 1. Search (Aligned Inline with Header) */}
           <div className="relative flex items-center" ref={searchRef}>
             <AnimatePresence mode="wait">
@@ -170,7 +173,7 @@ export function Navbar() {
                   transition={{ duration: 0.2 }}
                   onClick={() => setIsSearchOpen(true)}
                   className={iconButtonClass} 
-                  aria-label="Recherche"
+                  aria-label={t.nav.search}
                 >
                   <Search className={iconSizeClass} strokeWidth={2} />
                 </motion.button>
@@ -190,14 +193,14 @@ export function Navbar() {
                     type="text" 
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    placeholder="Films, séries..."
+                    placeholder={t.nav.searchPlaceholder}
                     className="w-full bg-transparent border-none outline-none text-xs md:text-sm text-foreground placeholder:text-muted/60 font-sans"
                   />
                   <button 
                     type="button" 
                     onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }}
                     className="text-muted hover:text-foreground shrink-0 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
-                    aria-label="Fermer la recherche"
+                    aria-label={t.nav.closeSearch}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -233,7 +236,7 @@ export function Navbar() {
                     </div>
                   ) : (
                     <div className="px-4 py-6 text-center text-sm text-muted">
-                      Aucun résultat pour "{searchQuery}"
+                      {t.nav.noResults} "{searchQuery}"
                     </div>
                   )}
                   
@@ -244,7 +247,7 @@ export function Navbar() {
                       onClick={() => setIsSearchOpen(false)}
                       className="block text-center text-xs text-brand-primary font-medium hover:underline py-1"
                     >
-                      Recherche avancée
+                      {t.nav.advancedSearch}
                     </Link>
                   </div>
                 </motion.div>
@@ -260,7 +263,7 @@ export function Navbar() {
             <button 
               onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
               className={iconButtonClass} 
-              aria-label="Notifications"
+              aria-label={t.nav.notifications}
             >
               <Bell className={iconSizeClass} strokeWidth={2} />
               {/* Unread badge */}
@@ -274,18 +277,18 @@ export function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.2 }}
-                  className="fixed left-4 right-4 top-24 sm:absolute sm:top-full sm:left-auto sm:right-0 sm:mt-2 w-auto sm:w-80 max-w-sm mx-auto sm:mx-0 bg-white dark:bg-[#121212] border border-gray-200 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden z-50"
+                  className="absolute right-0 mt-2 w-80 bg-white dark:bg-[#121212] border border-gray-200 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 py-2"
                 >
-                  <div className="p-4 border-b border-gray-100 dark:border-white/10 flex justify-between items-center">
-                    <h3 className="font-semibold text-foreground">Notifications</h3>
-                    <span className="text-xs text-brand-primary bg-brand-primary/10 px-2 py-1 rounded-full font-medium">1 nouvelle</span>
+                  <div className="px-4 py-2 border-b border-gray-100 dark:border-white/10 flex justify-between items-center">
+                    <span className="text-sm font-semibold text-foreground">{t.nav.notificationsTitle}</span>
+                    <span className="text-xs text-brand-primary font-medium cursor-pointer hover:underline">Tout marquer</span>
                   </div>
                   <div className="max-h-80 overflow-y-auto p-2">
                     <div className="p-3 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition-colors cursor-pointer flex gap-3 items-start">
                       <div className="w-2 h-2 mt-2 rounded-full bg-brand-primary shrink-0 shadow-[0_0_8px_rgba(255,106,0,0.8)]"></div>
                       <div>
-                        <p className="text-sm text-foreground font-medium mb-1">Nouveau contenu ajouté à Nouveautés Exclusives</p>
-                        <p className="text-xs text-muted">Il y a 2 heures</p>
+                        <p className="text-sm text-foreground font-medium mb-1">{t.nav.newContentAdded}</p>
+                        <p className="text-xs text-muted">{t.nav.timeAgo}</p>
                         <p className="text-[10px] text-gray-400 mt-1 italic">(Donnée fictive)</p>
                       </div>
                     </div>
@@ -295,15 +298,18 @@ export function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* Persistent "S'abonner" CTA */}
+          {/* 4. Language Switcher (FR / EN) - Placé juste entre la cloche et le bouton S'abonner */}
+          <LanguageSwitcher />
+
+          {/* 5. Persistent "S'abonner" CTA */}
           <Link
             href="/#tarifs"
             className="hidden sm:inline-flex px-6 py-2.5 md:px-8 md:py-3 text-sm md:text-base font-extrabold font-sans rounded-full bg-brand-primary text-black hover:bg-brand-hover transition-all shadow-glow-primary hover:shadow-[0_0_20px_rgba(255,106,0,0.6)] hover:scale-105 active:scale-95 flex-shrink-0 tracking-wide"
           >
-            S'abonner
+            {t.nav.subscribe}
           </Link>
 
-          {/* 4. Account */}
+          {/* 6. Account */}
           <div className="relative" ref={accountRef}>
             <button 
               onClick={() => {
@@ -314,7 +320,7 @@ export function Navbar() {
                 }
               }}
               className={iconButtonClass} 
-              aria-label="Profil"
+              aria-label={t.nav.account}
             >
               <User className={iconSizeClass} strokeWidth={2} />
             </button>
@@ -329,7 +335,7 @@ export function Navbar() {
                   className="absolute right-0 mt-2 w-56 bg-white dark:bg-[#121212] border border-gray-200 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 py-2"
                 >
                   <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10 mb-1">
-                    <p className="text-sm font-semibold text-foreground">Mon Compte</p>
+                    <p className="text-sm font-semibold text-foreground">{t.nav.account}</p>
                     <p className="text-xs text-muted truncate">utilisateur@wassa.sn</p>
                   </div>
                   <div className="flex flex-col">
@@ -338,21 +344,21 @@ export function Navbar() {
                       onClick={() => setIsAccountMenuOpen(false)}
                       className="px-4 py-2.5 text-sm text-foreground hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-3 transition-colors focus:bg-gray-50 dark:focus:bg-white/5 outline-none"
                     >
-                      <User className="w-4 h-4 text-muted-foreground" /> Profil
+                      <User className="w-4 h-4 text-muted-foreground" /> {t.nav.profile}
                     </Link>
                     <Link 
                       href="/ma-liste" 
                       onClick={() => setIsAccountMenuOpen(false)}
                       className="px-4 py-2.5 text-sm text-foreground hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-3 transition-colors focus:bg-gray-50 dark:focus:bg-white/5 outline-none"
                     >
-                      <List className="w-4 h-4 text-muted-foreground" /> Ma Liste
+                      <List className="w-4 h-4 text-muted-foreground" /> {t.nav.myList}
                     </Link>
                     <Link 
                       href="#" 
                       onClick={() => setIsAccountMenuOpen(false)}
                       className="px-4 py-2.5 text-sm text-foreground hover:bg-gray-50 dark:hover:bg-white/5 flex items-center gap-3 transition-colors focus:bg-gray-50 dark:focus:bg-white/5 outline-none"
                     >
-                      <Settings className="w-4 h-4 text-muted-foreground" /> Gérer mon abonnement
+                      <Settings className="w-4 h-4 text-muted-foreground" /> {t.nav.manageSubscription}
                     </Link>
                     <div className="h-px bg-gray-100 dark:bg-white/10 my-1"></div>
                     <button 
@@ -363,7 +369,7 @@ export function Navbar() {
                       }}
                       className="w-full text-left px-4 py-2.5 text-sm text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors focus:bg-red-50 dark:focus:bg-red-500/10 outline-none"
                     >
-                      <LogOut className="w-4 h-4" /> Se déconnecter
+                      <LogOut className="w-4 h-4" /> {t.nav.signOut}
                     </button>
                   </div>
                 </motion.div>
@@ -393,43 +399,48 @@ export function Navbar() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col gap-6 text-xl font-medium text-foreground">
-                <Link href="/" onClick={(e) => { handleLogoOrHomeClick(e); setIsMobileMenuOpen(false); }} className="hover:text-brand-primary transition-colors">Accueil</Link>
+                <Link href="/" onClick={(e) => { handleLogoOrHomeClick(e); setIsMobileMenuOpen(false); }} className="hover:text-brand-primary transition-colors">{t.nav.home}</Link>
                 <Link href="/tv" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse"></span>
-                  TV en Direct
+                  {t.nav.liveTv}
                 </Link>
-                <Link href="/series" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Séries</Link>
-                <Link href="/movies" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Films</Link>
-                <Link href="/podcasts" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Podcasts</Link>
-                <Link href="/documentaires" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Documentaires</Link>
-                <Link href="/afrique" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Afrique</Link>
-                <Link href="/categories" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Catégories</Link>
+                <Link href="/series" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.series}</Link>
+                <Link href="/movies" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.movies}</Link>
+                <Link href="/podcasts" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.podcasts}</Link>
+                <Link href="/documentaires" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.documentaries}</Link>
+                <Link href="/afrique" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.africa}</Link>
+                <Link href="/categories" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.categories}</Link>
                 
                 <div className="h-px bg-gray-200 dark:bg-white/10 my-2"></div>
+
+                {/* Mobile Language Switcher */}
+                <div className="my-1">
+                  <LanguageSwitcher variant="mobile" />
+                </div>
 
                 <Link 
                   href="/#tarifs" 
                   onClick={() => setIsMobileMenuOpen(false)} 
                   className="w-full text-center py-3 px-6 rounded-full bg-brand-primary text-black font-extrabold text-base uppercase tracking-wider shadow-glow-primary hover:bg-brand-hover transition-all"
                 >
-                  S'abonner
+                  {t.nav.subscribe}
                 </Link>
                 
-                <Link href="/ma-liste" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Ma Liste</Link>
+                <Link href="/ma-liste" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.myList}</Link>
                 
                 {isLoggedIn ? (
                   <>
-                    <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Profil</Link>
-                    <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Gérer mon abonnement</Link>
+                    <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.profile}</Link>
+                    <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.manageSubscription}</Link>
                     <button 
                       onClick={() => { setIsLoggedIn(false); setIsMobileMenuOpen(false); router.push("/login"); }}
                       className="text-left text-red-600 dark:text-red-500 hover:text-red-700 transition-colors"
                     >
-                      Se déconnecter
+                      {t.nav.signOut}
                     </button>
                   </>
                 ) : (
-                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">Se connecter</Link>
+                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-brand-primary transition-colors">{t.nav.signIn}</Link>
                 )}
               </div>
             </motion.div>

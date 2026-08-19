@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState, MouseEvent } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { MovieCard } from "./MovieCard";
-
+import { useLanguage } from "@/lib/LanguageContext";
 import { ContentItem } from "@/types/content";
 
 interface CategoryRowProps {
@@ -15,6 +15,7 @@ interface CategoryRowProps {
 
 export function CategoryRow({ title, tagline, movies, aspectRatio = "poster" }: CategoryRowProps) {
   const rowRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
   
   // Drag-to-scroll state
   const [isDragging, setIsDragging] = useState(false);
@@ -45,7 +46,6 @@ export function CategoryRow({ title, tagline, movies, aspectRatio = "poster" }: 
 
   const onMouseUp = () => {
     setIsDragging(false);
-    // Note: hasDragged is reset on next mousedown
   };
 
   const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -53,7 +53,7 @@ export function CategoryRow({ title, tagline, movies, aspectRatio = "poster" }: 
     e.preventDefault();
     setHasDragged(true);
     const x = e.pageX - rowRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Scroll-fast multiplier
+    const walk = (x - startX) * 2;
     rowRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -72,7 +72,7 @@ export function CategoryRow({ title, tagline, movies, aspectRatio = "poster" }: 
             {title}
           </h2>
           <span className="text-brand-primary text-sm font-sans font-bold cursor-pointer hover:text-brand-hover transition-colors hidden md:block">
-            Voir tout
+            {t.categories.viewAll}
           </span>
         </div>
         {tagline && (
@@ -100,10 +100,7 @@ export function CategoryRow({ title, tagline, movies, aspectRatio = "poster" }: 
           onMouseMove={onMouseMove}
           onClickCapture={onClickCapture}
           className={`flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide px-6 md:px-12 pb-12 pt-4 scroll-smooth flex-nowrap ${isDragging ? "cursor-grabbing snap-none" : "cursor-grab snap-x snap-mandatory"}`}
-          style={{ 
-            // Disable native drag of images to allow custom drag-to-scroll
-            userSelect: "none"
-          }}
+          style={{ userSelect: "none" }}
         >
           {movies.map((movie) => (
             <div 

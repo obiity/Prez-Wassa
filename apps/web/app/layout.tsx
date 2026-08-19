@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { FavoritesProvider } from "@/lib/FavoritesContext";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,11 +18,16 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "WASSA | Le Sénégal vous suit partout",
-  description: "WASSA is the first premium streaming platform dedicated to Senegalese movies, TV series, documentaries and audiovisual productions.",
+  description: "WASSA est la première plateforme de streaming premium dédiée aux films, séries, documentaires et contenus audiovisuels sénégalais.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
 };
-
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { FavoritesProvider } from "@/lib/FavoritesContext";
 
 export default function RootLayout({
   children,
@@ -35,9 +43,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <FavoritesProvider>
-            {children}
-          </FavoritesProvider>
+          <LanguageProvider>
+            <FavoritesProvider>
+              {children}
+            </FavoritesProvider>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

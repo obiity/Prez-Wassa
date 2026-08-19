@@ -1,8 +1,11 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function BrandManifesto() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative w-full py-24 md:py-32 bg-secondary overflow-hidden border-y border-white/5">
       {/* Background pattern */}
@@ -19,19 +22,19 @@ export function BrandManifesto() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-brand-primary font-sans font-bold tracking-widest text-xs md:text-sm uppercase mb-6 drop-shadow-sm">
-              Pourquoi WASSA
+              {t.manifesto.badge}
             </h2>
             
             <h3 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-foreground mb-8 leading-[1.15] tracking-tight">
-              Le cinéma sénégalais, <br/>
-              <span className="text-muted font-light italic">sans frontières.</span>
+              {t.manifesto.titleMain} <br/>
+              <span className="text-muted font-light italic">{t.manifesto.titleSub}</span>
             </h3>
             
             <p className="text-lg md:text-xl font-sans text-muted font-light leading-relaxed mb-8">
-              Nous avons créé WASSA avec une mission simple : le Sénégal au cœur, l'Afrique en horizon. Si notre ancrage et notre passion première restent les productions sénégalaises, nous voulons offrir une vitrine à toute la richesse du cinéma africain.
+              {t.manifesto.p1}
             </p>
             <p className="text-lg md:text-xl font-sans text-muted font-light leading-relaxed">
-              Valoriser nos créateurs locaux, raconter nos propres histoires avec authenticité, et reconnecter la diaspora avec sa culture. Bienvenue chez vous.
+              {t.manifesto.p2}
             </p>
           </motion.div>
         </div>

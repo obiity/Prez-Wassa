@@ -1,9 +1,12 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { Tv, MonitorSmartphone, MonitorPlay } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function HowItWorks() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative w-full pt-24 md:pt-32 pb-0 bg-background overflow-hidden">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
@@ -11,11 +14,10 @@ export function HowItWorks() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
           <h2 className="text-brand-primary font-sans font-bold tracking-widest text-xs md:text-sm uppercase mb-4 drop-shadow-sm">
-            Comment ça marche
+            {t.howItWorks.badge}
           </h2>
           <h3 className="text-3xl md:text-5xl font-display font-bold text-foreground leading-[1.2] tracking-tight">
-            Le cinéma à portée de main, <br className="hidden md:block"/>
-            où que vous soyez.
+            {t.howItWorks.title}
           </h3>
         </div>
 
@@ -53,9 +55,9 @@ export function HowItWorks() {
               <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-4">
                 <MonitorPlay size={24} />
               </div>
-              <h4 className="text-xl md:text-2xl font-display font-bold text-foreground mb-3">1. S'abonner</h4>
+              <h4 className="text-xl md:text-2xl font-display font-bold text-foreground mb-3">{t.howItWorks.step1Title}</h4>
               <p className="text-base md:text-lg text-muted font-sans font-light leading-relaxed">
-                Créez votre compte en quelques clics et choisissez l'offre qui correspond à vos besoins. Pas d'engagement à long terme, résiliez quand vous voulez.
+                {t.howItWorks.step1Desc}
               </p>
             </motion.div>
 
@@ -70,9 +72,9 @@ export function HowItWorks() {
               <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-4">
                 <MonitorSmartphone size={24} />
               </div>
-              <h4 className="text-xl md:text-2xl font-display font-bold text-foreground mb-3">2. Choisir votre contenu</h4>
+              <h4 className="text-xl md:text-2xl font-display font-bold text-foreground mb-3">{t.howItWorks.step2Title}</h4>
               <p className="text-base md:text-lg text-muted font-sans font-light leading-relaxed">
-                Explorez notre catalogue exclusif de films, séries et documentaires sénégalais. Téléchargez vos favoris pour les regarder hors connexion lors de vos déplacements.
+                {t.howItWorks.step2Desc}
               </p>
             </motion.div>
 
@@ -87,9 +89,9 @@ export function HowItWorks() {
               <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-4">
                 <Tv size={24} />
               </div>
-              <h4 className="text-xl md:text-2xl font-display font-bold text-foreground mb-3">3. Regarder partout</h4>
+              <h4 className="text-xl md:text-2xl font-display font-bold text-foreground mb-3">{t.howItWorks.step3Title}</h4>
               <p className="text-base md:text-lg text-muted font-sans font-light leading-relaxed">
-                Profitez d'une qualité allant jusqu'à la 4K Ultra HD sur votre téléviseur, votre ordinateur, votre tablette ou votre smartphone. Le Sénégal vous suit partout.
+                {t.howItWorks.step3Desc}
               </p>
             </motion.div>
 

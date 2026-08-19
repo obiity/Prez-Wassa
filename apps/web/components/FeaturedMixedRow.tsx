@@ -4,12 +4,15 @@ import Link from "next/link";
 import { Play, Users, Radio, Film, Tv } from "lucide-react";
 import { ContentItem } from "@/types/content";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/lib/LanguageContext";
 
 interface FeaturedMixedRowProps {
   items: ContentItem[];
 }
 
 export function FeaturedMixedRow({ items }: FeaturedMixedRowProps) {
+  const { t, language } = useLanguage();
+
   return (
     <section className="relative w-full max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 py-6 z-20">
       {/* Section Header */}
@@ -18,15 +21,15 @@ export function FeaturedMixedRow({ items }: FeaturedMixedRowProps) {
           <div className="flex items-center gap-2">
             <Tv className="w-5 h-5 text-brand-primary" />
             <h2 className="text-xl md:text-2xl font-serif font-bold text-foreground tracking-tight">
-              Sélection En Direct & À la Une
+              {t.hero.mixedRowTitle}
             </h2>
           </div>
           <p className="text-xs md:text-sm text-brand-primary font-serif italic tracking-wide mt-0.5">
-            Vos directs TV et contenus phares du jour en temps réel
+            {t.hero.mixedRowTagline}
           </p>
         </div>
         <span className="text-xs md:text-sm text-muted font-sans font-medium hidden sm:inline">
-          4 programmes phares
+          {t.hero.mixedRowBadge}
         </span>
       </div>
 
@@ -35,6 +38,9 @@ export function FeaturedMixedRow({ items }: FeaturedMixedRowProps) {
         {items.map((item, idx) => {
           const isLive = item.type === "live" || item.isLive;
           const isSubRequired = item.isExclusive || item.requiresSubscription;
+          const displayTitle = language === "en" && item.title_en ? item.title_en : item.title;
+          const displaySynopsis = language === "en" && item.synopsis_en ? item.synopsis_en : item.synopsis;
+          const displayChannel = language === "en" && item.channelName_en ? item.channelName_en : item.channelName;
 
           return (
             <motion.div
@@ -55,19 +61,18 @@ export function FeaturedMixedRow({ items }: FeaturedMixedRowProps) {
                 <div className="absolute inset-0 z-0 bg-secondary overflow-hidden">
                   <img
                     src={item.imageUrl}
-                    alt={item.title}
+                    alt={displayTitle}
                     className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
-                  {/* Subtle Gradient overlay for readability */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                 </div>
 
-                {/* Top Badges (Live vs VOD Visual Signaling) */}
+                {/* Top Badges */}
                 <div className="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
                   {isLive ? (
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-600 text-white font-sans font-bold text-[10px] sm:text-xs uppercase tracking-wider shadow-md animate-pulse">
                       <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-                      EN DIRECT
+                      {t.hero.liveNow}
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 font-sans font-bold text-[10px] sm:text-xs uppercase tracking-wider">
@@ -83,7 +88,7 @@ export function FeaturedMixedRow({ items }: FeaturedMixedRowProps) {
                     </span>
                   ) : !isLive && (item.duration || item.year) ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-gray-200 border border-white/20 text-[10px] sm:text-xs font-medium">
-                      {item.year ? `${item.year}` : ""} {item.duration ? `• ${item.duration}` : ""}
+                      {item.year ? `${item.year}` : ""} {item.duration ? ` • ${item.duration}` : ""}
                     </span>
                   ) : null}
                 </div>
@@ -97,19 +102,19 @@ export function FeaturedMixedRow({ items }: FeaturedMixedRowProps) {
 
                 {/* Bottom Content Metadata */}
                 <div className="relative z-10 p-4 flex flex-col justify-end">
-                  {isLive && item.channelName && (
+                  {isLive && displayChannel && (
                     <span className="text-[11px] font-sans font-semibold text-brand-primary uppercase tracking-wider mb-1 flex items-center gap-1">
                       <Radio size={12} />
-                      {item.channelName}
+                      {displayChannel}
                     </span>
                   )}
 
                   <h3 className="font-display font-bold text-white text-base md:text-lg line-clamp-1 group-hover:text-brand-primary transition-colors leading-tight drop-shadow">
-                    {item.title}
+                    {displayTitle}
                   </h3>
 
                   <p className="text-xs text-gray-300 font-sans line-clamp-1 mt-1 font-normal opacity-90">
-                    {item.synopsis}
+                    {displaySynopsis}
                   </p>
                 </div>
               </Link>

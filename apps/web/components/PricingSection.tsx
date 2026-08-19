@@ -1,66 +1,32 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Check, RefreshCw, CheckCircle2 } from "lucide-react";
-
-const pricingPlans = [
-  {
-    id: "essentiel",
-    name: "Essentiel",
-    price: "2 500 FCFA",
-    billing: "/ mois",
-    description: "Parfait pour découvrir le cinéma sénégalais sur votre mobile.",
-    features: [
-      "Qualité vidéo Bonne (720p)",
-      "1 écran en simultané",
-      "Téléchargements hors ligne",
-      "Renouvellement automatique flexible",
-      "Avec publicités",
-      "Catalogue standard"
-    ],
-    buttonText: "S'abonner",
-    isPopular: false,
-  },
-  {
-    id: "standard",
-    name: "Standard",
-    price: "4 000 FCFA",
-    billing: "/ mois",
-    description: "L'expérience idéale pour profiter de nos contenus en haute définition.",
-    features: [
-      "Qualité vidéo Excellente (1080p)",
-      "2 écrans en simultané",
-      "Téléchargements hors ligne",
-      "Renouvellement automatique flexible",
-      "Sans publicités",
-      "Accès aux WASSA Originals"
-    ],
-    buttonText: "Choisir Standard",
-    isPopular: true,
-  },
-  {
-    id: "premium",
-    name: "Premium",
-    price: "6 500 FCFA",
-    billing: "/ mois",
-    description: "La meilleure qualité vidéo pour toute la famille, sans compromis.",
-    features: [
-      "Qualité vidéo Exceptionnelle (4K+HDR)",
-      "4 écrans en simultané",
-      "Téléchargements hors ligne",
-      "Renouvellement automatique flexible",
-      "Sans publicités",
-      "Accès aux WASSA Originals en avant-première"
-    ],
-    buttonText: "S'abonner",
-    isPopular: false,
-  }
-];
+import { Check, RefreshCw } from "lucide-react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function PricingSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [autoRenew, setAutoRenew] = useState<boolean>(true);
+  const { t } = useLanguage();
+
+  const pricingPlans = [
+    {
+      id: "mobile",
+      ...t.pricing.plans.mobile,
+      isPopular: false,
+    },
+    {
+      id: "standard",
+      ...t.pricing.plans.standard,
+      isPopular: true,
+    },
+    {
+      id: "premium",
+      ...t.pricing.plans.premium,
+      isPopular: false,
+    }
+  ];
 
   return (
     <section id="tarifs" className="relative w-full pt-0 pb-24 md:pb-32 bg-secondary/30 -mt-12 md:-mt-24 z-10 scroll-mt-28">
@@ -69,13 +35,13 @@ export function PricingSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
           <h2 className="text-brand-primary font-sans font-bold tracking-widest text-xs md:text-sm uppercase mb-4 drop-shadow-sm">
-            Tarifs
+            {t.pricing.badge}
           </h2>
           <h3 className="text-3xl md:text-5xl font-display font-bold text-foreground leading-[1.2] tracking-tight">
-            Choisissez votre abonnement
+            {t.pricing.title}
           </h3>
           <p className="mt-4 text-lg text-muted font-light mb-8">
-            Découvrez nos offres adaptées à tous les budgets. Sans engagement, annulez à tout moment.
+            {t.pricing.description}
           </p>
 
           {/* Bouton Renouvellement automatique */}
@@ -89,15 +55,15 @@ export function PricingSection() {
               }`}
             >
               <RefreshCw className={`w-4 h-4 ${autoRenew ? "animate-spin-slow" : ""}`} />
-              Renouvellement automatique : {autoRenew ? "Activé" : "Désactivé"}
+              {t.pricing.autoRenew} {autoRenew ? t.pricing.active : t.pricing.inactive}
             </button>
             <span className="text-xs text-muted pr-4 hidden sm:inline-block">
-              {autoRenew ? "Paiement mensuel sans interruption" : "Paiement unique sans reconduction"}
+              {autoRenew ? t.pricing.monthlyBenefit : t.pricing.oneTimeBenefit}
             </span>
           </div>
         </div>
 
-        {/* Pricing Tiers - Boxed Style with Spotlight Animation */}
+        {/* Pricing Tiers */}
         <div 
           className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-stretch"
           onMouseLeave={() => setHoveredIndex(null)}
@@ -121,7 +87,7 @@ export function PricingSection() {
               >
                 {plan.isPopular && (
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-primary text-black font-bold text-xs uppercase tracking-wider py-1.5 px-4 rounded-full shadow-lg z-20">
-                    Le plus populaire
+                    {t.pricing.popularBadge}
                   </div>
                 )}
 
@@ -188,7 +154,7 @@ export function PricingSection() {
                         : "bg-white/10 hover:bg-white/20 text-white border border-white/15 hover:border-brand-primary/60"
                     }`}
                   >
-                    {plan.buttonText}
+                    {plan.btn}
                   </button>
 
                 </div>

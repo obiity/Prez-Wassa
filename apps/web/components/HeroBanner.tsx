@@ -4,13 +4,16 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Info } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export interface HeroMovie {
   id: string;
   title: string;
+  title_en?: string;
   description: string;
+  description_en?: string;
   imageUrl: string;
-  logoUrl?: string; // Optional if we want to use an image logo instead of text
+  logoUrl?: string;
 }
 
 interface HeroBannerProps {
@@ -20,6 +23,7 @@ interface HeroBannerProps {
 export function HeroBanner({ movies }: HeroBannerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const { t, language } = useLanguage();
 
   const slideNext = () => {
     setDirection(1);
@@ -36,7 +40,7 @@ export function HeroBanner({ movies }: HeroBannerProps) {
     
     const interval = setInterval(() => {
       slideNext();
-    }, 8000); // 8 seconds per slide
+    }, 8000);
     
     return () => clearInterval(interval);
   }, [movies]);
@@ -44,6 +48,10 @@ export function HeroBanner({ movies }: HeroBannerProps) {
   if (!movies || movies.length === 0) return null;
 
   const currentMovie = movies[currentIndex];
+  if (!currentMovie) return null;
+
+  const displayTitle = (language === "en" && currentMovie.title_en) ? currentMovie.title_en : currentMovie.title;
+  const displayDescription = (language === "en" && currentMovie.description_en) ? currentMovie.description_en : currentMovie.description;
 
   return (
     <motion.div 
@@ -59,7 +67,7 @@ export function HeroBanner({ movies }: HeroBannerProps) {
         }
       }}
     >
-      {/* Preload next slide image to prevent flash of missing content */}
+      {/* Preload next slide image */}
       <div className="hidden">
         <img src={movies[(currentIndex + 1) % movies.length]?.imageUrl} alt="preload next" />
       </div>
@@ -79,15 +87,12 @@ export function HeroBanner({ movies }: HeroBannerProps) {
             <div className="absolute inset-0 z-0 pointer-events-none">
               <img 
                 src={currentMovie.imageUrl} 
-                alt={currentMovie.title} 
+                alt={displayTitle} 
                 className="w-full h-full object-cover select-none"
                 draggable="false"
               />
-              {/* Deep dark gradient from the left for text readability */}
               <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent w-[85%]"></div>
-              {/* Bottom gradient to blend into the rows */}
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-transparent"></div>
-              {/* Top subtle gradient for the navbar */}
               <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-white/60 dark:from-black/60 to-transparent z-0"></div>
             </div>
           </motion.div>
@@ -99,7 +104,7 @@ export function HeroBanner({ movies }: HeroBannerProps) {
         <AnimatePresence mode="wait" custom={direction}>
           {currentMovie && (
             <motion.div 
-              key={`content-${currentMovie.id}`}
+              key={`content-${currentMovie.id}-${language}`}
               custom={direction}
               initial={{ opacity: 0, x: direction === 1 ? 50 : direction === -1 ? -50 : -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -110,16 +115,16 @@ export function HeroBanner({ movies }: HeroBannerProps) {
               <div className="flex items-center gap-3 mb-6">
                 <span className="w-10 h-[2px] bg-brand-primary"></span>
                 <span className="text-foreground font-sans font-bold tracking-[0.2em] text-xs md:text-sm uppercase drop-shadow-md">
-                  En vedette
+                  {t.hero.featured}
                 </span>
               </div>
 
               <h1 className="text-6xl md:text-8xl font-display font-bold text-foreground mb-6 leading-[1.1] drop-shadow-xl tracking-tight">
-                {currentMovie.title}
+                {displayTitle}
               </h1>
               
               <p className="text-xl md:text-2xl font-sans text-foreground/80 mb-10 line-clamp-3 font-light leading-relaxed max-w-2xl drop-shadow-lg">
-                {currentMovie.description}
+                {displayDescription}
               </p>
               
               <div className="flex flex-wrap items-center gap-4">
@@ -128,7 +133,7 @@ export function HeroBanner({ movies }: HeroBannerProps) {
                   className="flex items-center justify-center gap-3 bg-brand-primary hover:bg-brand-hover text-black px-10 py-5 rounded-full font-sans font-semibold text-lg transition-all shadow-glow-primary hover:scale-105 active:scale-95"
                 >
                   <Play fill="currentColor" size={24} />
-                  Regarder
+                  {t.hero.watch}
                 </Link>
                 
                 <Link 
@@ -136,7 +141,7 @@ export function HeroBanner({ movies }: HeroBannerProps) {
                   className="flex items-center justify-center gap-3 bg-black/40 hover:bg-black/60 backdrop-blur-xl border border-white/20 text-white px-10 py-5 rounded-full font-sans font-semibold text-lg transition-all hover:scale-105 active:scale-95"
                 >
                   <Info size={24} />
-                  Plus d'informations
+                  {t.hero.moreInfo}
                 </Link>
               </div>
             </motion.div>
@@ -156,7 +161,7 @@ export function HeroBanner({ movies }: HeroBannerProps) {
             className={`h-1.5 rounded-full transition-all duration-500 ${
               idx === currentIndex ? "w-8 bg-brand-primary" : "w-2 bg-white/30 hover:bg-white/60"
             }`}
-            aria-label={`Aller à la diapositive ${idx + 1}`}
+            aria-label={`Slide ${idx + 1}`}
           />
         ))}
       </div>
